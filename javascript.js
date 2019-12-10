@@ -5,6 +5,7 @@ canvas.height = window.innerHeight;
 ctx.strokeStyle = "#BADA55";
 ctx.lineJoin = "round";
 ctx.lineCap = "round";
+ctx.lineWidth = 100;
 
 let isDrawing = false;
 let lastX = 0;
@@ -14,9 +15,22 @@ function draw(e) {
     // stop the function from runnning when they are not moused down
     if (!isDrawing) return;
     console.log(e);
+    ctx.beginPath();
+    // start from
+    ctx.moveTo(lastX, lastY);
+    // go to 
+    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.stroke();
+    [lastX, lastY] = [e.offsetX, e.offsetY];
+    // lastX = e.offsetX;
+    // lastY = e.offsetY;
 }
 
+canvas.addEventListener("mousedown", (e) => {
+isDrawing = true;
+[lastX, lastY] = [e.offsetX, e.offsetY];
+});
+
 canvas.addEventListener("mousemove", draw);
-canvas.addEventListener("mousedown", () => isDrawing = true);
 canvas.addEventListener("mouseup", () => isDrawing = false);
 canvas.addEventListener("mouseout", () => isDrawing = true);
